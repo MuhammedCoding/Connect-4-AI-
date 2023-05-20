@@ -165,5 +165,47 @@ def evaluateSum(window, thisPlayerCircle):
 
     return nodeSum
 
+def boardEvaluation(board, circle):
+    sum = 0
+    for rows in range(6):
+        for cols in range(4):
+            winningEdge = []
+            for i in range(4):
+                winningEdge.append(board[rows][cols + i])
+            sum += evaluateSum(winningEdge, circle)
+    for cols in range(7):
+        for rows in range(3):
+            winningEdge = []
+            for i in range(4):
+                winningEdge.append(board[rows + i][cols])
+            sum += evaluateSum(winningEdge, circle)
+
+    for rows in range(3):
+        for cols in range(4):
+            winningEdge = []
+            for i in range(4):
+                winningEdge.append(board[rows + i][cols + i])
+            sum += evaluateSum(winningEdge, circle)
+
+    for i in range(3):
+        for j in range(4):
+            winningEdge = []
+            for i in range(4):
+                winningEdge.append(board[i + 3 - i][j + i])
+            sum += evaluateSum(winningEdge, circle)
+    return sum
+
+
+def isTerminalState(board):
+    return isWinningTurn(board, 1) or isWinningTurn(board, 2) or len(getPossibleMoves(board)) == 0
+
+
+def getPossibleMoves(board):
+    possibleCellsArray = []
+    for c in range(7):
+        if isEmptyCell(board, c):
+            possibleCellsArray.append(c)
+    return possibleCellsArray
+
 
 
